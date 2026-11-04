@@ -129,6 +129,7 @@ function head(page) {
 <html lang="${HTML_LANG[LANG]}">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(T(page.title))}</title>
 <meta name="description" content="${esc(T(page.desc))}">
@@ -165,8 +166,8 @@ function footer(page) {
       <p style="margin-top:18px;max-width:30em">${T(t('2011 жылдан бері Астанада балаларға тегін үйірмелер мен ата-аналарға қолдау көрсетеміз.', 'С 2011 года — бесплатные кружки для детей и поддержка для родителей в Астане.', 'Since 2011: free activities for children and support for parents in Astana.'))}</p>
       <div class="actions"><button class="btn btn--sun btn--sm" data-enroll>${T(UI.enroll)}</button><a class="btn btn--ghost btn--sm" href="${href('charity/')}">${T(UI.donate)}</a></div>
     </div>
-    <div><h4>${T(t('Бөлімдер', 'Разделы', 'Sections'))}</h4><ul>${NAV.map(n => `<li><a href="${href(n.slug)}">${T(n.label)}</a></li>`).join('')}</ul></div>
-    <div><h4>${T(t('Байланыс', 'Контакты', 'Contacts'))}</h4><ul>
+    <div><h2 class="footer__h">${T(t('Бөлімдер', 'Разделы', 'Sections'))}</h2><ul>${NAV.map(n => `<li><a href="${href(n.slug)}">${T(n.label)}</a></li>`).join('')}</ul></div>
+    <div><h2 class="footer__h">${T(t('Байланыс', 'Контакты', 'Contacts'))}</h2><ul>
       <li><a href="https://www.instagram.com/${CONFIG.instagram}/" target="_blank" rel="noopener">Instagram @${CONFIG.instagram}</a></li>
       ${CONFIG.whatsapp ? `<li><a href="https://wa.me/${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a></li>` : ''}
       <li>${T(t('Астана, Қазақстан', 'Астана, Казахстан', 'Astana, Kazakhstan'))}</li>
@@ -226,7 +227,7 @@ const pageHero = (page, { kicker, title, lead, tone = '' }) => `<section class="
   <p class="phero__lead">${T(lead)}</p>
 </div></div></section>`;
 
-const feature = (n, { ic, tone, cap, kicker, title, body }) => `<article class="feature reveal">
+const feature = (n, { id, ic, tone, cap, kicker, title, body }) => `<article class="feature reveal"${id ? ` id="${id}"` : ''}>
   <div class="feature__media"><span class="feature__num" aria-hidden="true">${String(n).padStart(2, '0')}</span>${art(ic, tone, cap || UI.photoSoon)}</div>
   <div class="feature__body">${kicker ? `<span class="kicker">${T(kicker)}</span>` : ''}<h2>${T(title)}</h2>${T(body)}</div>
 </article>`;
@@ -277,7 +278,7 @@ PAGES.push({
   <div class="section__head" style="margin-bottom:0"><span class="kicker" style="color:var(--sun)">${T(t('Сандармен', 'В цифрах', 'In numbers'))}</span><h2>${T(t('15 жыл бойы Астана балаларына есігіміз ашық', '15 лет открываем двери детям Астаны', '15 years of open doors for Astana’s children'))}</h2></div>
   <div class="stats">
     <div class="stat reveal"><b data-count="15">15</b><span>${T(t('жыл жұмыс (2011 жылдан)', 'лет работы (с 2011 года)', 'years of work (since 2011)'))}</span></div>
-    <div class="stat reveal"><b data-count="5000" data-pre="≈">≈5 000</b><span>${T(t('тәрбиеленуші', 'воспитанников', 'children'))}</span></div>
+    <div class="stat reveal"><b data-count="5000" data-pre="≈">${LANG === 'en' ? '≈5,000' : '≈5 000'}</b><span>${T(t('тәрбиеленуші', 'воспитанников', 'children'))}</span></div>
     <div class="stat reveal"><b data-count="7">7</b><span>${T(t('қаладағы клуб', 'клубов в городе', 'clubs in the city'))}</span></div>
     <div class="stat reveal"><b data-count="22">22</b><span>${T(t('үйірме мен секция', 'кружка и секции', 'activities & sections'))}</span></div>
     <div class="stat reveal"><b>0 ₸</b><span>${T(t('осал отбасылардың балаларына', 'для детей из уязвимых семей', 'for children from vulnerable families'))}</span></div>
@@ -368,7 +369,7 @@ ${pageHero(page, { kicker: t('Қор туралы', 'О фонде', 'About'), t
     ]) })}
   ${feature(4, { ic: 'star', tone: 'sun', kicker: t('Негізгі көрсеткіштер', 'Основные показатели', 'Key figures'), title: t('Нәтижелер сандармен', 'Результаты в цифрах', 'Results in numbers'),
     body: `<div class="kpis">${[
-      ['≈5 000', t('тәрбиеленуші', 'воспитанников', 'children')], ['7', t('клуб', 'клубов', 'clubs')],
+      [LANG === 'en' ? '≈5,000' : '≈5 000', t('тәрбиеленуші', 'воспитанников', 'children')], ['7', t('клуб', 'клубов', 'clubs')],
       ['22', t('үйірме', 'кружка', 'activities')], ['90', t('психолог оқытылды', 'психологов обучено', 'psychologists trained')],
       ['100', t('хоккейші жабдықталды', 'хоккеистов экипировано', 'hockey players equipped')], ['9', t('мамандық аналарға', 'профессий для мам', 'professions for mothers')],
     ].map(([a, b]) => `<div class="kpi"><b>${a}</b><span>${T(b)}</span></div>`).join('')}</div>` +
@@ -392,7 +393,7 @@ PAGES.push({
   title: t('Клубтар мекенжайы мен кестесі — «Замандас 21», Астана', 'Клубы: адреса и расписание — «Замандас 21», Астана', 'Clubs: addresses and schedule — Zamandas 21, Astana'),
   desc: t('Астанадағы 7 «Замандас» клубы: мекенжайлар, байланыс, үйірмелер мен кесте. Жақын клубты табыңыз.', '7 клубов «Замандас» в Астане на карте: адреса, контакты, кружки и расписание. Найдите клуб рядом с домом.', '7 Zamandas clubs in Astana on the map: addresses, contacts, activities and schedule.'),
   render: page => {
-    const mapSrc = `https://yandex.kz/map-widget/v1/?ll=71.4304%2C51.1282&z=11&text=${encodeURIComponent('Замандас Астана')}`;
+    const mapSrc = `https://yandex.kz/map-widget/v1/?ll=71.4304%2C51.1282&z=11&mode=search&text=${encodeURIComponent('Замандас 21 Астана')}`;
     return `
 ${pageHero(page, { tone: 'sun', kicker: t('Клубтар', 'О клубах', 'Clubs'), title: t('Үйіңізге жақын 7 клуб', '7 клубов рядом с домом', '7 clubs close to home'), lead: t('Картадан жақын клубты тауып, баланы тегін үйірмеге жазыңыз.', 'Найдите ближайший клуб на карте и запишите ребёнка на бесплатный кружок.', 'Find the nearest club on the map and enrol your child in a free activity.') })}
 <section class="section section--tight" style="padding-top:0"><div class="wrap">
@@ -406,8 +407,8 @@ ${pageHero(page, { tone: 'sun', kicker: t('Клубтар', 'О клубах', '
 </div></section>
 
 <section class="section section--tight"><div class="wrap"><div class="features">
-${CLUBS.map((c, i) => feature(i + 1, { ic: c.ic, tone: c.tone, kicker: c.youth ? t('14–35 жас', '14–35 лет', 'Ages 14–35') : t(`№${i + 1} клуб`, `Клуб №${i + 1}`, `Club No. ${i + 1}`), title: c.name,
-  body: `<div class="club-meta" id="${c.id}">
+${CLUBS.map((c, i) => feature(i + 1, { id: c.id, ic: c.ic, tone: c.tone, kicker: c.youth ? t('14–35 жас', '14–35 лет', 'Ages 14–35') : t(`№${i + 1} клуб`, `Клуб №${i + 1}`, `Club No. ${i + 1}`), title: c.name,
+  body: `<div class="club-meta">
       <div>${icon('pin')}<span><b>${T(t('Мекенжай', 'Адрес', 'Address'))}:</b> ${esc(T(c.addr))}, ${T(t('Астана', 'Астана', 'Astana'))}</span></div>
       <div>${icon('phone')}<span><b>${T(t('Байланыс', 'Контакты', 'Contacts'))}:</b> ${CONFIG.whatsapp ? `<a href="https://wa.me/${CONFIG.whatsapp}">WhatsApp</a> · ` : ''}<a href="https://www.instagram.com/${CONFIG.instagram}/" target="_blank" rel="noopener">@${CONFIG.instagram}</a> <span class="muted">(${T(t('клуб телефоны — ', 'телефон клуба — ', 'club phone — '))}${T(UI.pending)})</span></span></div>
       <div>${icon('clock')}<span><b>${T(t('Жұмыс уақыты', 'Режим', 'Hours'))}:</b> ${T(t('жыл бойы, жазда да', 'круглый год, включая лето', 'all year round, including summer'))}</span></div>
@@ -478,7 +479,7 @@ const NEWS = [
 PAGES.push({
   slug: 'news/',
   title: t('Жаңалықтар — «Замандас 21»', 'Новости — «Замандас 21»', 'News — Zamandas 21'),
-  desc: t('«Замандас 21» клубтарының жаңалықтары, Instagram жарияланымдары және БАҚ-тағы материалдар.', 'Новости клубов «Замандас 21», публикации в Instagram и материалы СМИ о фонде.', 'News from Zamandas 21 clubs, Instagram posts and media coverage.'),
+  desc: t('«Замандас 21» клубтарының жаңалықтары, Instagram жарияланымдары және БАҚ-тағы материалдар.', 'Новости клубов «Замандас 21», публикации в Instagram и материалы СМИ о фонде.', 'News from Zamandas 21 family clubs in Astana: events, Instagram posts and media coverage of the foundation.'),
   render: page => `
 ${pageHero(page, { kicker: t('Жаңалықтар', 'Новости', 'News'), title: t('Аулада не болып жатыр', 'Что нового во дворе', 'What’s new in the yard'), lead: t('Клубтардағы оқиғалар, мерекелер мен жетістіктер — Instagram-да және БАҚ-та.', 'События, праздники и победы наших воспитанников — в Instagram и в СМИ.', 'Events, celebrations and achievements — on Instagram and in the media.') })}
 <section class="section section--tight" style="padding-top:0"><div class="wrap">
@@ -503,7 +504,7 @@ PAGES.push({
   desc: t('«Замандас 21» қорын қолдаңыз: Kaspi, реквизиттер, корпоративтік серіктестік. Әр теңге балалардың тегін сабақтарына жұмсалады.', 'Поддержите фонд «Замандас 21»: Kaspi, реквизиты, корпоративное партнёрство. Деньги идут на бесплатные занятия детей.', 'Support Zamandas 21: Kaspi, bank details, corporate partnership. Donations fund free classes for children.'),
   render: page => {
     const R = CONFIG.requisites;
-    const row = (k, v) => `<div><dt>${T(k)}</dt><dd>${v ? esc(v) : `<span class="pending">${T(UI.pending)}</span>`}</dd>${v ? `<button class="copy" data-copy="${esc(v)}">${T(UI.copy)}</button>` : '<span></span>'}</div>`;
+    const row = (k, v) => `<div><dt>${T(k)}</dt><dd>${v ? `<span>${esc(v)}</span><button class="copy" type="button" data-copy="${esc(v)}">${T(UI.copy)}</button>` : `<span class="pending">${T(UI.pending)}</span>`}</dd></div>`;
     return `
 ${pageHero(page, { tone: 'terra', kicker: t('Қайырымдылық', 'Благотворительность', 'Charity'), title: t('Аулада балалар үшін жарық жағып тұрыңыз', 'Помогите свету в окнах клуба не гаснуть', 'Help keep the club lights on'), lead: t('Сіздің қолдауыңыз — бір балаға бір ай үйірме, педагогтың жалақысы, жылы бөлме және спорт жабдығы.', 'Ваша поддержка — это месяц кружка для ребёнка, зарплата педагога, тёплое помещение и спортивная форма.', 'Your support means a month of activities for a child, a teacher’s salary, a warm room and sports kit.') })}
 <section class="section section--tight"><div class="wrap"><div class="features">
