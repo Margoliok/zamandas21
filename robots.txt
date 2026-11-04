@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://margoliok.github.io/zamandas21/sitemap.xml
