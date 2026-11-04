@@ -13,6 +13,7 @@
       burger.setAttribute('aria-expanded', String(open));
       nav.classList.toggle('is-open', open);
     });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('is-open')) { burger.setAttribute('aria-expanded', 'false'); nav.classList.remove('is-open'); burger.focus(); } });
     nav.addEventListener('click', e => { if (e.target.closest('a')) { burger.setAttribute('aria-expanded', 'false'); nav.classList.remove('is-open'); } });
   }
 
@@ -23,7 +24,8 @@
   $$('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('is-in'));
 
   /* Count-up numbers */
-  const fmt = n => n.toLocaleString('ru-RU').replace(/ /g, ' ');
+  const LOC = document.documentElement.lang === 'en' ? 'en-US' : 'ru-RU';
+  const fmt = n => n.toLocaleString(LOC).replace(/[\u00a0\u202f]/g, '\u2009');
   const countIO = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     entries.forEach(en => {
       if (!en.isIntersecting) return;
@@ -93,11 +95,15 @@
           if (!r.ok) throw new Error('http ' + r.status);
           show('ok', L.ok); form.reset();
         } else if (CFG.whatsapp) {
-          window.open(`https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+          // открываем синхронно, в рамках клика — иначе Safari блокирует всплывающее окно
+          const url = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(text)}`;
+          if (!window.open(url, '_blank')) location.href = url;
           show('ok', L.okWa);
         } else {
-          try { await navigator.clipboard.writeText(text); } catch (_) {}
-          window.open(`https://ig.me/m/${CFG.instagram}`, '_blank', 'noopener');
+          const url = `https://ig.me/m/${CFG.instagram}`;
+          const w = window.open(url, '_blank');
+          navigator.clipboard?.writeText(text).catch(() => {});
+          if (!w) location.href = url;
           show('ok', L.okIg);
         }
         window.gtag?.('event', 'enroll_submit');
