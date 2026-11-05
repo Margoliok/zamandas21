@@ -140,7 +140,7 @@ ${alt}
 <link rel="icon" href="${page.rel}assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="${page.rel}assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="apple-touch-icon" href="${page.rel}assets/apple-touch-icon.png">
 <meta property="og:image" content="${CONFIG.siteUrl}assets/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap&subset=cyrillic-ext" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Montserrat+Alternates:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${page.rel}assets/styles.css">
 ${page.slug === '' ? `<script type="application/ld+json">${JSON.stringify(ld)}</script>` : ''}
 </head>`;
@@ -561,7 +561,7 @@ writeFileSync(join(OUT, '404.html'), `<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Страница не найдена — Замандас 21</title><meta name="robots" content="noindex">
 <link rel="icon" href="/zamandas21/assets/favicon-32.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Unbounded:wght@700;800&display=swap&subset=cyrillic-ext" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Montserrat+Alternates:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/zamandas21/assets/styles.css"></head>
 <body><main class="section"><div class="wrap" style="text-align:center;max-width:640px">
 <img src="/zamandas21/assets/logo-256.png" width="160" height="160" alt="Замандас 21" style="margin:0 auto 24px">
