@@ -68,7 +68,7 @@ const art = (ic, tone = 'sun', cap = '') => {
   return `<div class="art art--${tone}" role="img" aria-label="${esc(T(cap) || ic)}">${patternSvg(artId)}<span class="art__blob1"></span><span class="art__blob2"></span><span class="art__dot"></span><span class="art__icon">${icon(ic)}</span>${cap ? `<span class="art__cap">${esc(T(cap))}</span>` : ''}</div>`;
 };
 
-const logoSvg = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#F4B728" stroke="#0A3540" stroke-width="3"/><path d="M14 36 32 21l18 15" fill="none" stroke="#0A3540" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 33v16h26V33" fill="#FFF6E5" stroke="#0A3540" stroke-width="3" stroke-linejoin="round"/><path d="M32 49V40c0-5-5-7-8-5-2.6 1.6-1.6 5.4 1 5.4 1.8 0 2.4-2 1.4-3M32 40c0-5 5-7 8-5 2.6 1.6 1.6 5.4-1 5.4-1.8 0-2.4-2-1.4-3" fill="none" stroke="#C2471F" stroke-width="2.6" stroke-linecap="round"/><circle cx="46" cy="16" r="4" fill="#C2471F" stroke="#0A3540" stroke-width="2"/></svg>`;
+const logoImg = rel => `<img class="logo__img" src="${rel}assets/logo-128.png" srcset="${rel}assets/logo-128.png 2x, ${rel}assets/logo-256.png 3x" width="56" height="56" alt="" decoding="async">`;
 
 /* ---------------- Shared copy ---------------- */
 const UI = {
@@ -121,7 +121,7 @@ function head(page) {
   const alt = LANGS.map(l => `<link rel="alternate" hreflang="${HTML_LANG[l]}" href="${url(l)}">`).join('') + `<link rel="alternate" hreflang="x-default" href="${url('kk')}">`;
   const ld = {
     '@context': 'https://schema.org', '@type': 'NGO', name: 'ОФ «Замандас 21»', alternateName: 'Семейный дворовый клуб «Замандас»',
-    url: CONFIG.siteUrl, foundingDate: '2011', founder: { '@type': 'Person', name: 'Ляззат Алшинова' },
+    url: CONFIG.siteUrl, logo: CONFIG.siteUrl + 'assets/logo-512.png', foundingDate: '2011', founder: { '@type': 'Person', name: 'Ляззат Алшинова' },
     areaServed: 'Astana, Kazakhstan', sameAs: [`https://www.instagram.com/${CONFIG.instagram}/`],
     location: CLUBS.map(c => ({ '@type': 'Place', name: c.name.ru, address: { '@type': 'PostalAddress', streetAddress: c.addr.ru, addressLocality: 'Астана', addressCountry: 'KZ' } })),
   };
@@ -137,7 +137,8 @@ function head(page) {
 ${alt}
 <meta property="og:type" content="website"><meta property="og:title" content="${esc(T(page.title))}"><meta property="og:description" content="${esc(T(page.desc))}"><meta property="og:url" content="${url(LANG)}"><meta property="og:locale" content="${{ kk: 'kk_KZ', ru: 'ru_RU', en: 'en_US' }[LANG]}">
 <meta name="theme-color" content="#FFF6E5">
-<link rel="icon" href="${page.rel}assets/logo.svg" type="image/svg+xml">
+<link rel="icon" href="${page.rel}assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="${page.rel}assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="apple-touch-icon" href="${page.rel}assets/apple-touch-icon.png">
+<meta property="og:image" content="${CONFIG.siteUrl}assets/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap&subset=cyrillic-ext" rel="stylesheet">
 <link rel="stylesheet" href="${page.rel}assets/styles.css">
@@ -149,7 +150,7 @@ function header(page) {
   const href = (l, slug) => page.rel + PREFIX[l] + slug;
   return `<a class="skip" href="#main">${T(UI.skip)}</a>
 <header class="header"><div class="wrap"><div class="header__bar">
-  <a class="logo" href="${href(LANG, '')}" aria-label="${esc(T(UI.brand))} — ${esc(T(UI.home))}">${logoSvg}<span class="logo__text">${T(UI.brand)}<small>${T(UI.brandSub)}</small></span></a>
+  <a class="logo" href="${href(LANG, '')}" aria-label="${esc(T(UI.brand))} — ${esc(T(UI.home))}">${logoImg(page.rel)}<span class="logo__text">${T(UI.brand)}<small>${T(UI.brandSub)}</small></span></a>
   <nav class="nav" id="nav" aria-label="${esc(T(UI.menu))}">${NAV.map(n => `<a href="${href(LANG, n.slug)}"${n.slug === page.slug ? ' aria-current="page"' : ''}>${T(n.label)}</a>`).join('')}</nav>
   <div class="lang" role="group" aria-label="Language">${LANGS.map(l => `<a href="${href(l, page.slug)}" hreflang="${l}" lang="${l}"${l === LANG ? ' aria-current="true"' : ''}>${LANG_LABEL[l]}</a>`).join('')}</div>
   <button class="btn btn--sm header__cta" data-enroll>${T(UI.enroll)}</button>
@@ -162,7 +163,7 @@ function footer(page) {
   return `<footer class="footer"><div class="wrap">
   <div class="footer__grid">
     <div>
-      <a class="logo" href="${href('')}">${logoSvg}<span class="logo__text">${T(UI.brand)}<small>${T(UI.brandSub)}</small></span></a>
+      <a class="logo" href="${href('')}">${logoImg(page.rel)}<span class="logo__text">${T(UI.brand)}<small>${T(UI.brandSub)}</small></span></a>
       <p style="margin-top:18px;max-width:30em">${T(t('2011 жылдан бері Астанада балаларға тегін үйірмелер мен ата-аналарға қолдау көрсетеміз.', 'С 2011 года — бесплатные кружки для детей и поддержка для родителей в Астане.', 'Since 2011: free activities for children and support for parents in Astana.'))}</p>
       <div class="actions"><button class="btn btn--sun btn--sm" data-enroll>${T(UI.enroll)}</button><a class="btn btn--ghost btn--sm" href="${href('charity/')}">${T(UI.donate)}</a></div>
     </div>
@@ -555,7 +556,6 @@ ${scripts(page)}
 }
 mkdirSync(join(OUT, 'assets'), { recursive: true });
 for (const f of readdirSync(join(ROOT, 'src/assets'))) copyFileSync(join(ROOT, 'src/assets', f), join(OUT, 'assets', f));
-writeFileSync(join(OUT, 'assets/logo.svg'), logoSvg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" '));
 writeFileSync(join(OUT, '.nojekyll'), '');
 writeFileSync(join(OUT, '404.html'), `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/zamandas21/"><title>Замандас 21</title><a href="/zamandas21/">Замандас 21</a>`);
 const urls = LANGS.flatMap(l => PAGES.map(p => CONFIG.siteUrl + PREFIX[l] + p.slug));

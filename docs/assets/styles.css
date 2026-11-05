@@ -98,7 +98,9 @@ p { margin: 0 0 1em; }
   box-shadow: 0 10px 30px -20px rgba(10,53,64,.6);
 }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--teal-dark); flex-shrink: 0; }
-.logo svg { width: 44px; height: 44px; }
+.logo__img { width: 56px; height: 56px; flex-shrink: 0; margin: -6px 0; filter: drop-shadow(0 2px 3px rgba(10,53,64,.18)); transition: transform .4s cubic-bezier(.2,.8,.3,1.4); }
+.logo:hover .logo__img { transform: rotate(-12deg) scale(1.06); }
+.footer .logo__img { width: 84px; height: 84px; margin: 0; filter: none; }
 .logo__text { font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1; }
 .logo__text small { display: block; font-family: var(--font-body); font-weight: 700; font-size: 11px; letter-spacing: .04em; color: var(--muted); margin-top: 3px; text-transform: uppercase; }
 .nav { display: flex; gap: 2px; margin-left: auto; }
@@ -560,9 +562,9 @@ p { margin: 0 0 1em; }
 @media (max-width: 760px) {
   .header__bar { gap: 8px; padding: 6px 6px 6px 10px; }
   .logo { gap: 8px; }
-  .logo svg { width: 40px; height: 40px; }
+  .logo__img { width: 48px; height: 48px; margin: -4px 0; }
 }
-@media (max-width: 360px) { .logo__text { display: none; } }
+@media (max-width: 360px) { .header .logo__text { display: none; } .mcta .btn { font-size: 15px; padding: 0 14px; white-space: nowrap; } }
 .sticker--free > div { display: grid; justify-items: center; position: relative; z-index: 1; }
 @media (max-width: 1460px) and (min-width: 1101px) { .nav a { padding: 10px 10px; font-size: 14px; } .header__bar { gap: 12px; } }
 @media (max-width: 420px) {
