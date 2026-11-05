@@ -557,7 +557,20 @@ ${scripts(page)}
 mkdirSync(join(OUT, 'assets'), { recursive: true });
 for (const f of readdirSync(join(ROOT, 'src/assets'))) copyFileSync(join(ROOT, 'src/assets', f), join(OUT, 'assets', f));
 writeFileSync(join(OUT, '.nojekyll'), '');
-writeFileSync(join(OUT, '404.html'), `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/zamandas21/"><title>Замандас 21</title><a href="/zamandas21/">Замандас 21</a>`);
+writeFileSync(join(OUT, '404.html'), `<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Страница не найдена — Замандас 21</title><meta name="robots" content="noindex">
+<link rel="icon" href="/zamandas21/assets/favicon-32.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Unbounded:wght@700;800&display=swap&subset=cyrillic-ext" rel="stylesheet">
+<link rel="stylesheet" href="/zamandas21/assets/styles.css"></head>
+<body><main class="section"><div class="wrap" style="text-align:center;max-width:640px">
+<img src="/zamandas21/assets/logo-256.png" width="160" height="160" alt="Замандас 21" style="margin:0 auto 24px">
+<h1 style="font-size:clamp(56px,12vw,110px);color:var(--terra);margin:0">404</h1>
+<p class="lead">Бұл бет табылмады · Страница не найдена · Page not found</p>
+<div class="actions" style="justify-content:center;margin-top:24px">
+<a class="btn" href="/zamandas21/">Басты бет</a><a class="btn btn--ghost" href="/zamandas21/ru/">Главная</a><a class="btn btn--ghost" href="/zamandas21/en/">Home</a></div>
+</div></main></body></html>
+`);
 const urls = LANGS.flatMap(l => PAGES.map(p => CONFIG.siteUrl + PREFIX[l] + p.slug));
 writeFileSync(join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(u => `<url><loc>${u}</loc></url>`).join('')}</urlset>\n`);
 writeFileSync(join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${CONFIG.siteUrl}sitemap.xml\n`);
